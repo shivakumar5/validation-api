@@ -1,5 +1,5 @@
 # validation-api
-The repo contains the code to validate the input string using RESTful Web Service
+The repo contains the code `validation_api.go` to validate the input string using RESTful Web Service
 
 ## Use Case
 It will receive a string as input, potentially a mixture of upper and lower case, numbers, special characters etc. The task is to determine if the string contains at least one of each letter of the alphabet. Return true if all are found and false if not.
