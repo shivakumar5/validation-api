@@ -1,0 +1,29 @@
+openapi: 3.0.1
+info:
+  title: ValidateAPI
+  description: API to Validate the given string
+  version: '1.0'
+servers:
+  - url: 'http://localhost:9000'
+paths:
+  /validate:
+    get:
+      description: API to Validate the given string
+      parameters:
+        - name: inputstring
+          in: query
+          schema:
+            type: string
+          example: Shiva!40123
+      responses:
+        '200':
+          description: API to Validate the given string
+          content:
+            text/plain; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: 'http://localhost:9000'
+    servers:
+      - url: 'http://localhost:9000'
