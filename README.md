@@ -84,9 +84,9 @@ you can find the `swagger.json` file in the main repo.
 
 We need to follow the below steps to deploy this service to Kubernetes using AWS EKS and ECR images.
 
-1. Create a RESTful API service using Golang
+**1. Create a RESTful API service using Golang**
    
-2. Create a Docker image of our service using Dockerfile
+**2. Create a Docker image of our service using Dockerfile**
    
 ```dockerfile
 FROM go_base:latest
@@ -114,7 +114,7 @@ Run Docker build command to create image
 docker build -t validate-api .
 ```
 
-3. Create an ECR Repository
+**3. Create an ECR Repository**
    
    Before we can push the docker image, we need to create a repository on ECR. Using AWS Console, we can create a repository. After creating an ECR repository, to push the docker image we need to authenticate our AWS CLI and tag the docker image.
 
@@ -124,11 +124,11 @@ docker build -t validate-api .
 docker push 123456-dkr.ecr.us-east-1.amazonaws.com/one-technopedia/validation-api:latest
 ```
 
-4. Create AWS EKS Cluster
+**4. Create AWS EKS Cluster**
 
     Creating an EKS Cluster is a big process, need to configure many things here. we can create EKS Cluster using Terraform also.
 
-5. Create Deploy Manifest
+**5. Create Deploy Manifest**
    
    Once the cluster is configured and it is up and running, next step is to apply the service file to create deployment for our application/service.
 
@@ -189,7 +189,7 @@ kubectl get svc
 * the selector will be app:validation-api since that is the label we defined in our deployment
 
 
-6. Access the service
+**6. Access the service**
    
    To locally access the service, port-foward the service using below command:
 
