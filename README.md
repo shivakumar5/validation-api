@@ -24,22 +24,21 @@ localhost:9090/validate
 when user provides the input string, the below code validates it 
 
 ```go
-for _, c := range key {
-		switch {
-		case unicode.IsUpper(c):
-			hasUpper = true
-		case unicode.IsLower(c):
-			hasLower = true
-		case unicode.IsNumber(c):
-			hasNumber = true
-		case unicode.IsPunct(c) || unicode.IsSymbol(c):
-			hasSpecial = true
-		default:
-			return false
-		}
+func validateString(inputstr string) bool {
+
+	validstring := true
+	// convert input string to lower case
+	inputstr = strings.ToLower(inputstr)
+	for _, letters := range LowerCaseLetters() {
+		// check whether input string contains all the letters
+		validstring = validstring && strings.ContainsAny(inputstr, letters)
+	}
+	return validstring
+}
+
 ```
 
-when user makes a request with input string which contains **at least one special charater and alpha numeric value** , the response will be `true` else `false`.
+when user makes a request with input string which contains **at least one of each charater of the alphabets** , the response will be `true` else `false`.
 
 
 

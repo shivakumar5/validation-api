@@ -2,46 +2,37 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
-	"unicode"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
 
+//LowerCaseLetters - Get Lower case letters from a-z
+func LowerCaseLetters() []string {
+	var letters []string
+	// ASCII values from 97 to 122 i.e. a to z
+	for i := 97; i < 123; i++ {
+		letters = append(letters, string(i))
+	}
+	return letters
+}
+
 // validateString method to validate the given string and return false if it doesn't satisfy the condition
-func validateString(key string) bool {
+func validateString(inputstr string) bool {
 
-	// Varibales to check the condition
-	var (
-		hasUpper   = false
-		hasLower   = false
-		hasNumber  = false
-		hasSpecial = false
-	)
+	validstring := true
 
-	for _, c := range key {
-		switch {
-		case unicode.IsUpper(c):
-			hasUpper = true
-		case unicode.IsLower(c):
-			hasLower = true
-		case unicode.IsNumber(c):
-			hasNumber = true
-		case unicode.IsPunct(c) || unicode.IsSymbol(c):
-			hasSpecial = true
-		default:
-			return false
-		}
+	// convert input string to lower case
+	inputstr = strings.ToLower(inputstr)
 
+	for _, letters := range LowerCaseLetters() {
+		// check whether input string contains all the letters
+		validstring = validstring && strings.ContainsAny(inputstr, letters)
 	}
 
-	if !hasLower || !hasUpper || !hasNumber || !hasSpecial {
-		return false
-	}
-
-	return true
+	return validstring
 }
 
 // handler function ...
@@ -54,14 +45,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if validErrs := validateString(keystr); !validErrs {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(false)
-	} else {
+	// check the input string
+	if validateString(keystr) {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(true)
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(false)
 	}
-
 }
 
 func main() {
@@ -69,7 +60,7 @@ func main() {
 	newRouter := mux.NewRouter()
 
 	newRouter.HandleFunc("/validate", handler).Methods("GET")
-	fmt.Println("Listening on port : 8080")
+	log.Println("Listening on port : 8080")
 	log.Fatal(http.ListenAndServe(":8080", newRouter))
 
 } // End of Main
